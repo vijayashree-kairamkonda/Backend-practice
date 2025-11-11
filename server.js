@@ -9,15 +9,18 @@ import errorHandler from "./middleware/error.js";
 import notFoundHandler from "./middleware/notFound.js";
 import { fileURLToPath } from "url";
 import path from "path";
+import { config as CONFIG } from "./config/env.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
-app.listen(port, () =>
-  console.log(`Server running at http://localhost:${port}/`)
-);
+app.listen(CONFIG.port, () => {
+  console.log(
+    `✅ Server running in ${CONFIG.nodeEnv} mode on port ${CONFIG.port}`
+  );
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
