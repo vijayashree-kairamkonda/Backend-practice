@@ -1,0 +1,23 @@
+{
+  "name": "simple-node-express-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon  server.js",
+    "dev": "nodemon --env-file=.env server.js"
+  },
+  "author": "Vijayashree",
+  "license": "ISC",
+  "description": "A simple Node.js and Express application",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-validator": "^7.3.0"
+  }
+}
