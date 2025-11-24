@@ -4,9 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start:dev": "cross-env NODE_ENV=development nodemon server3.js",
-    "start:stg": "cross-env NODE_ENV=staging nodemon server3.js",
-    "start:prod": "cross-env NODE_ENV=production nodemon server3.js"
+    "start:dev": "cross-env NODE_ENV=development nodemon server4.js",
+    "start:stg": "cross-env NODE_ENV=staging nodemon server4.js",
+    "start:prod": "cross-env NODE_ENV=production nodemon server4.js"
   },
   "author": "Vijayashree",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "cross-env": "^10.1.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "express-validator": "^7.3.0"
+    "express-validator": "^7.3.0",
+    "mongoose": "^9.0.0"
   }
 }

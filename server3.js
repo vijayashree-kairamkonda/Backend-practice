@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.listen(CONFIG.port, () => {
   console.log(
-    `✅ Server running in ${CONFIG.nodeEnv} mode on port ${CONFIG.port}, http://localhost:${CONFIG.port}`
+    `Server running in ${CONFIG.nodeEnv} mode on port ${CONFIG.port}, http://localhost:${CONFIG.port}`
   );
 });
 
