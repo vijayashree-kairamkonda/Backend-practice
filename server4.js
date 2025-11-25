@@ -3,6 +3,7 @@ import { config as CONFIG } from "./config/env.js";
 import { connectDB } from "./config/db.js";
 import customerRoutes from "./src/routes/customerRoutes.js";
 import weatherRoutes from "./src/routes/weatherRoutes.js";
+import githubRoutes from "./src/routes/githubRoutes.js";
 
 const app = express();
 
@@ -14,6 +15,7 @@ connectDB();
 
 app.use("/api/customers", customerRoutes);
 app.use("/api/weather", weatherRoutes);
+app.use("/api/github", githubRoutes);
 
 app.listen(CONFIG.port, () => {
   console.log(
