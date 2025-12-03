@@ -20,16 +20,16 @@ export const getCustomers = async (req, res) => {
     const cacheKey = "customers:list";
     const cached = await redis.get(cacheKey);
     if (cached) {
-      console.log("Cache HIT (customers:list)");
+      console.log("Cache HIT");
       return res.json(JSON.parse(cached));
     }
-
-    console.log("Cache MISS (customers:list)");
+    console.log("Cache MISS");
     const customers = await Customer.find();
     await redis.set(cacheKey, JSON.stringify(customers), "EX", 60);
-    res.status(201).json(customers);
+    res.json(customers);
   } catch (err) {
-    res.status(500).json(err);
+    console.error("ERROR:", err);
+    res.status(500).json({ error: err.message });
   }
 };
 

@@ -4,12 +4,15 @@ import { connectDB } from "./config/db.js";
 import customerRoutes from "./src/routes/customerRoutes.js";
 import weatherRoutes from "./src/routes/weatherRoutes.js";
 import githubRoutes from "./src/routes/githubRoutes.js";
+import { cache as cacheMiddleware } from "./middleware/cache.js";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-console.log(process.env);
+app.use(cacheMiddleware);
+
+// console.log(process.env);
 
 connectDB();
 
