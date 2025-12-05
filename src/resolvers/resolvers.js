@@ -1,12 +1,36 @@
+import redis from "../../config/redis.js";
 import User from "../models/User.js";
 
 export const resolvers = {
   Query: {
     getUsers: async () => {
-      return await User.find();
+      const cacheKey = "users:list";
+      const cached = await redis.get(cacheKey);
+      if (cached) {
+        console.log("cache hit");
+        return JSON.parse(cached);
+      }
+      console.log("cache miss, setting users in redis");
+      const users = await User.find();
+      await redis.set(cacheKey, JSON.stringify(users), "EX", 300);
+      return users;
     },
     getUser: async (_, { id }) => {
-      return await User.findById(id);
+      try {
+        const key = `user:${id}`;
+        const cached = await redis.get(key);
+        if (cached) {
+          console.log("cache hit : get user by id");
+          return JSON.parse(cached);
+        }
+        console.log("cache miss, setting user by id in redis", id);
+        const user = await User.findById(id);
+        if (!user) {
+          await redis.set(key, JSON.stringify(null), "EX", 30);
+        }
+        await redis.set(key, JSON.stringify(user), "EX", 300);
+        return user;
+      } catch (err) {}
     },
   },
 
@@ -20,6 +44,7 @@ export const resolvers = {
             message: "User already exists with this email",
           };
         }
+        await redis.del("users:list");
         await User.create(input);
         return {
           error: false,
@@ -43,6 +68,8 @@ export const resolvers = {
             message: "User not found",
           };
         }
+        await redis.del(`user:${id}`);
+        await redis.del("users:list");
         return {
           error: false,
           message: "User updated successfully",
@@ -65,7 +92,8 @@ export const resolvers = {
             message: "User not found",
           };
         }
-
+        await redis.del(`user:${id}`);
+        await redis.del("users:list");
         return {
           error: false,
           message: "User deleted successfully",
